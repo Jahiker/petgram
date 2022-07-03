@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { Article, ImgWrapper, Img, Button } from './style'
-import { MdOutlineFavoriteBorder, MdOutlineFavorite } from 'react-icons/md'
+import React, { Fragment } from 'react'
+import { Article, ImgWrapper, Img } from './style'
+import { FavButton } from '../FavButton'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { useNearScreen } from '../../hooks/useNearScreen'
+import { useMuationToogleLike } from '../../hooks/useMuationToogleLike'
 
 const DEFAULT_IMAGE = 'https://res.cloudinary.com/midudev/image/upload/w_300/q_80/v1560262103/dogs.png'
 
@@ -10,7 +11,16 @@ export function PhotoCard ({ id, src = DEFAULT_IMAGE, likes = 0 }) {
   const key = `like-${id}`
   const [liked, setLiked] = useLocalStorage(key, false)
   const [show, element] = useNearScreen()
-  const Icon = !!liked ? MdOutlineFavorite : MdOutlineFavoriteBorder
+  const { mutation, mutationLoading, mutationError } = useMuationToogleLike()
+
+  const handleFavClick = () => {
+    !liked && mutation({
+      variables: {
+        input: { id }
+      }
+    })
+    setLiked(!liked)
+  }
 
   return (
     <Article ref={element}>
@@ -20,9 +30,7 @@ export function PhotoCard ({ id, src = DEFAULT_IMAGE, likes = 0 }) {
             <Img src={src} />
           </ImgWrapper>
         </a>
-        <Button onClick={() => setLiked(!liked)}>
-          <Icon size='32px' />{likes} Likes!
-        </Button>
+        <FavButton liked={liked} likes={likes} onClick={handleFavClick} />
       </Fragment>}
     </Article>
   )
