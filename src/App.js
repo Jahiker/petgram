@@ -1,26 +1,26 @@
-import React, { Fragment } from 'react'
-import { ListOfCategories } from './components/ListOfCategories'
+import React from 'react'
+
+import { Home } from './pages/Home'
+import { Detail } from './pages/Detail'
+
 import { GlobalStyle } from './styles/GlobalStyles'
-import { ListOfPhotoCardsContainer } from './containers/ListOfPhotoCards'
-import { PhotoCardWithQuery } from './containers/PhotoCardWithQuery'
 import { Logo } from './components/Logo'
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 export const App = () => {
-  const urlParams = new window.URLSearchParams(window.location.search)
-  const detailId = urlParams.get('detail');
 
   return (
     <div>
       <GlobalStyle />
-      <Logo />
-      {
-        detailId
-          ? <PhotoCardWithQuery id={detailId} />
-          : <Fragment>
-              <ListOfCategories />
-              <ListOfPhotoCardsContainer categoryId={1} />
-          </Fragment>
-      }
+      <BrowserRouter>
+        <Logo />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/pet/:id' element={<Home />} />
+          <Route path='/detail/:detailId' element={<Detail />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }

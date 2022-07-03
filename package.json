@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "lint": "standard --fix",
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --history-api-fallback",
     "start": "npm run dev --watch",
     "vercel-build": "npm run build",
     "deploy": "vercel --prod"
@@ -42,6 +42,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-placeholder": "^4.1.0",
+    "react-router-dom": "^6.3.0",
     "styled-components": "^5.3.5"
   },
   "standard": {

@@ -2,7 +2,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   output: {
-    filename: 'app.bunlde.js'
+    filename: 'app.bunlde.js',
+    publicPath: '/'
   },
   mode: 'development',
   plugins: [
