@@ -1,26 +1,22 @@
 import React, { Fragment } from 'react'
 import { Article, ImgWrapper, Img } from './style'
 import { FavButton } from '../FavButton'
-import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { useNearScreen } from '../../hooks/useNearScreen'
 import { useMuationToogleLike } from '../../hooks/useMuationToogleLike'
 import { Link } from 'react-router-dom'
 
 const DEFAULT_IMAGE = 'https://res.cloudinary.com/midudev/image/upload/w_300/q_80/v1560262103/dogs.png'
 
-export function PhotoCard ({ id, src = DEFAULT_IMAGE, likes = 0 }) {
-  const key = `like-${id}`
-  const [liked, setLiked] = useLocalStorage(key, false)
+export function PhotoCard ({ id, liked, src = DEFAULT_IMAGE, likes = 0 }) {
   const [show, element] = useNearScreen()
   const { mutation, mutationLoading, mutationError } = useMuationToogleLike()
 
   const handleFavClick = () => {
-    !liked && mutation({
+    mutation({
       variables: {
         input: { id }
       }
     })
-    setLiked(!liked)
   }
 
   return (
