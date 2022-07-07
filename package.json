@@ -8,6 +8,7 @@
     "build": "webpack",
     "lint": "standard --fix",
     "dev": "webpack-dev-server --history-api-fallback",
+    "serve:dev": "webpack --mode development && npx serve dist -s",
     "start": "npm run dev --watch",
     "vercel-build": "npm run build",
     "deploy": "vercel --prod"

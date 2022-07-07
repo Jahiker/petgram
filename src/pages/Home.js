@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 
 import { Helmet } from 'react-helmet'
 
-export const Home = () => {
+const HomePage = () => {
   let params = useParams();
   return (
     <Fragment>
@@ -19,3 +19,5 @@ export const Home = () => {
     </Fragment>
   )
 }
+
+export const Home = React.memo(HomePage)
