@@ -4,7 +4,7 @@ import { ListOfFavs } from '../components/ListOfFavs'
 
 import { Helmet } from 'react-helmet'
 
-export const Favs = () => {
+export default () => {
   const { data, loading, error } = useGetFavorite()
 
   if (loading) return 'loading...'

@@ -20,4 +20,4 @@ const HomePage = () => {
   )
 }
 
-export const Home = React.memo(HomePage)
+export default React.memo(HomePage)

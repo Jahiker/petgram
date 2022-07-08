@@ -5,7 +5,7 @@ import { Layout } from '../components/Layout';
 
 import { useParams } from "react-router-dom";
 
-export const Detail = () => {
+export default () => {
   let params = useParams();
   return (
     <Layout title={`Fotografia`}>

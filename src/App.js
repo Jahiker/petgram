@@ -1,47 +1,45 @@
-import React from 'react'
+import React, {useContext, Suspense} from "react";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 
-import { Home } from './pages/Home'
-import { Detail } from './pages/Detail'
-import { NavBar } from './components/NavBar'
-import { Favs } from './pages/Favs'
-import { User } from './pages/User'
-import { NotRegisterUser } from './pages/NotRegisterUser'
+import { Context } from "./Context";
 
-import { GlobalStyle } from './styles/GlobalStyles'
-import { Logo } from './components/Logo'
+//styles
+import { GlobalStyle } from "./styles/GlobalStyles";
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Context from './Context'
+//COMPONENTS
+import { Logo } from './components/Logo';
+import { NavBar } from './components/NavBar';
 
-export const App = () => {
+// PAGES
+const Favs = React.lazy(() => import ('./pages/Favs'))
+const NotFound = React.lazy(() => import ('./pages/NotFound'))
+const NotRegisterUser = React.lazy(() => import ('./pages/NotRegisterUser'))
+const Home = React.lazy(() => import ('./pages/Home'))
+const Detail = React.lazy(() => import ('./pages/Detail'))
+const User = React.lazy(() => import ('./pages/User'))
 
-  return (
-    <div>
-      <GlobalStyle />
-      <BrowserRouter>
-        <Logo />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/pet/:id' element={<Home />} />
-          <Route path='/detail/:detailId' element={<Detail />} />
-        </Routes>
-        <Context.Consumer>
-          {
-            ({ isAuth }) => (
-              isAuth
-                ? <Routes>
-                    <Route path='/favs' element={<Favs />} />
-                    <Route path='/user' element={<User />} />
-                  </Routes>
-                : <Routes>
-                    <Route path='/favs' element={<NotRegisterUser />} />
-                    <Route path='/user' element={<NotRegisterUser />} />
-                  </Routes>
-            )
-          }
-        </Context.Consumer>
-        <NavBar />
-      </BrowserRouter>
-    </div>
-  )
-}
+export const App = () =>{
+    // const  urlParams = new window.URLSearchParams(window.location.search)
+    // const detailId = urlParams.get('detail')
+    // console.log(detailId)
+    const { isAuth } = useContext(Context)
+    return (
+        <Suspense fallback={<div />}>
+          <BrowserRouter>
+            <GlobalStyle />
+            <Logo />
+            <Routes>
+                <Route exact path='/' element={<Home />} />
+                <Route exact path='/pet/:id' element={<Home />} />
+                <Route exact path='/detail/:id' element={<Detail />} />
+                <Route exact path='/favs' element={isAuth ? <Favs /> : <Navigate replace to='/login' />}/>
+                <Route exact path='/user'  element={isAuth ? <User /> : <Navigate replace to='/login' />} />
+                <Route exact path='/login' element={!isAuth ? <NotRegisterUser /> : <Navigate replace to='/' />} />
+                <Route path='*' element={<NotFound />} />
+
+            </Routes>
+          <NavBar />
+          </BrowserRouter>
+        </Suspense>
+    )
+} 
